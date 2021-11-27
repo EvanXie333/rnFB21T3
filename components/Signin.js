@@ -5,6 +5,8 @@ export function Signin(props){
     return(
         <View>
             <Text>Sign in</Text>
+            <Text>Email</Text>
+            <Text>Password</Text>
         </View>
     )
 }
