@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -21,24 +21,33 @@ initializeApp( firebaseConfig)
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const[ auth, setAuth] =useState()
+  const[ user, setUser] = useState()
 
 
   const SignupHandler = (email,password) =>{
     const auth = getAuth()
     createUserWithEmailAndPassword(auth, email, password)
-    .then( (userCredential )=>{console.log(userCredential)})
+    .then( (userCredential )=>{
+      console.log(userCredential)
+      setUser(userCredential)
+      setAuth(true)
+    })
     .catch( (error) =>{ console.log(error) })
 
   }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Signup" options={ {title:'Sign up'}}>
-          { (props) => <Signup {...props} handle= { SignupHandler} />}
-        </Stack.Screen>
+      
         {/* <Stack.Screen name="Signup" component ={Signup} 
         options={{title:'Sign up'}}/> */}
+        <Stack.Navigator>
+        <Stack.Screen name="Signup" options={ {title:'Sign up'}}>
+        
+        { (props) => <Signup {...props} handler= { SignupHandler} auth={auth}/>}
+        </Stack.Screen>
+
         <Stack.Screen name="Signin" component ={Signin} options={{title:'Sign in'}}/>
         <Stack.Screen name="Home" component ={Home}/>
         
