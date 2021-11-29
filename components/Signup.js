@@ -2,6 +2,7 @@ import React, {useState,useEffect} from 'react'
 import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { ThemeColours } from './ThemeColours';
+import { Feedback } from './Feedback';
 
 
 export function Signup(props) {
@@ -76,10 +77,10 @@ export function Signup(props) {
           <Text style={styles.buttonText}>Sign up</Text>
         </TouchableOpacity>
         
-        <View>
-          <Text >Already have an account?</Text>
+        <Feedback message ={props.message}/>
+        <Text >Already have an account?</Text>
           <Button title="Click here to sign in" onPress={() => navigation.navigate("Signin")} />
-        </View>
+        
       </View>
       </KeyboardAvoidingView>
       
