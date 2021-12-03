@@ -15,9 +15,12 @@ import {Signout} from './components/Signout'
 import { firebaseConfig } from './Config';
 import {initializeApp} from 'firebase/app'
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword,signOut } from "firebase/auth";
+import { initializeFirestore, getFirestore, setDoc, doc, addDoc, collection } from 'firebase/firestore'
 
 
-initializeApp( firebaseConfig)
+const FBapp = initializeApp( firebaseConfig)
+const FSdb = initializeFirestore(FBapp, {useFetchStreams: false})
+const FBauth = getAuth()
 
 
 const Stack = createNativeStackNavigator();
@@ -28,7 +31,7 @@ export default function App() {
   const [signupError,setSignupError] = useState()
   const [signinError,setSigninError] = useState()
 
-  const FBauth = getAuth()
+  
 
   useEffect( ()=> {
     onAuthStateChanged(FBauth, (user) => {
@@ -48,6 +51,8 @@ export default function App() {
     setSignupError(null)
     createUserWithEmailAndPassword(FBauth, email, password)
     .then( (userCredential )=>{
+      addDoc( collection (firestore,'users'), {id:userCredential.user.uid, email: userCredential.user.email})
+      //createUser('user', {id:userCredential.user.uid, email: userCredential.user.email})
       setUser(userCredential)
       setAuth(true)
     })
@@ -60,6 +65,7 @@ export default function App() {
   const SigninHandler =(email, password) =>{
     signInWithEmailAndPassword(FBauth, email, password )
     .then( (userCredential) => {
+      
       setUser(userCredential)
       setAuth(true)
     })
@@ -74,6 +80,11 @@ export default function App() {
     .catch( (error) => console.log(error.code))
   }
 
+  const createUser = async ( collection, data) => {
+    firestore.collection( collection).doc(data.id).set(data)
+    .then((response) => console.log(response))
+    .catch((error) => console.log(error))
+  }
   return (
     <NavigationContainer>
       
