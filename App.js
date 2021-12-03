@@ -48,7 +48,6 @@ export default function App() {
     setSignupError(null)
     createUserWithEmailAndPassword(FBauth, email, password)
     .then( (userCredential )=>{
-      console.log(userCredential)
       setUser(userCredential)
       setAuth(true)
     })
@@ -95,8 +94,8 @@ export default function App() {
           headderTitle: "Home",
           headerRight: (props) => <Signout {...props} handler = {SignoutHandler}/>
          }}> 
-          { (props) => <Home {...props} auth= {auth} 
-          />}
+          { (props) => 
+          <Home {...props} auth= {auth} />}
           </Stack.Screen>
           
         
