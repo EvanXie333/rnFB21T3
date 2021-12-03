@@ -91,11 +91,11 @@ export default function App() {
           { (props) => <Signin {...props} auth = {auth} error={signinError} handler = { SigninHandler}/>}
         </Stack.Screen>
         
-        <Stack.Screen name="Home">
-          { (props) => <Home {...props} auth= {auth} options = {{
-            headerTittle:"Test",
-            headerRight: (props) => <Signout {...props}/>
-          }}
+        <Stack.Screen name="Home" options = {{
+          headderTitle: "Home",
+          headerRight: (props) => <Signout {...props} handler = {SignoutHandler}/>
+         }}> 
+          { (props) => <Home {...props} auth= {auth} 
           />}
           </Stack.Screen>
           
