@@ -80,10 +80,9 @@ export default function App() {
     .catch( (error) => console.log(error.code))
   }
 
-  const createUser = async ( collection, data) => {
-    firestore.collection( collection).doc(data.id).set(data)
-    .then((response) => console.log(response))
-    .catch((error) => console.log(error))
+  const addData = async (FScolletction, data) =>{
+    const ref = await addDoc( collection(FSdb, FScolletction), data)
+    console.log(ref.id)
   }
   return (
     <NavigationContainer>
