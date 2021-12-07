@@ -78,9 +78,10 @@ export function Signup(props) {
         </TouchableOpacity>
         
         <Feedback message ={props.message}/>
-        <Text >Already have an account?</Text>
+        <View style={styles.meta}>
+          <Text style={styles.metaText}>Already have an account?</Text>
           <Button title="Click here to sign in" onPress={() => navigation.navigate("Signin")} />
-        
+        </View>
       </View>
       </KeyboardAvoidingView>
       
@@ -123,5 +124,14 @@ const styles = StyleSheet.create( {
   },
   kb: {
     flex: 1,
-  }
+  },
+  meta: {
+    backgroundColor: ThemeColours.cultured,
+    padding: 10,
+    borderRadius: 10,
+  },
+  metaText: {
+    textAlign: 'center',
+  },
+  
 })

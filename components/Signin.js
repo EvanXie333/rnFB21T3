@@ -33,14 +33,14 @@ export function Signin(props){
         <Text>Password</Text>
         <TextInput style={styles.input} 
           secureTextEntry={true} 
-          onChangeText={ (val) => setPassword(val) }/>
-        <TouchableOpacity styles={styles.button} onPress = { () => { props.handler(email,password)}}>
-        
+          onChangeText={ (val) => setPassword(val) } 
+        />
+        <TouchableOpacity style={styles.button} onPress={ () => { props.handler(email,password) }}>
           <Text style={styles.buttonText}>Sign in</Text>
         </TouchableOpacity>
-        <Feedback message= {props.error}/>
-        <View style= {styles.meta}>
-        <Text style ={styles.metaText}>Don't have an account?</Text>
+        <Feedback message={props.error} />
+        <View style={ styles.meta }>
+          <Text style={styles.metaText}>Don't have an account?</Text>
         <Button title="Click here to sign up" onPress={() => navigation.navigate("Signup")} />
         </View>
       </View>
@@ -66,7 +66,7 @@ const styles = StyleSheet.create( {
       },
       container: {
         flex: 1,
-        backgroundColor: ThemeColours.cerulean,
+        backgroundColor: ThemeColours.turquoise,
         justifyContent: 'center',
         alignItems: 'center'
       },
