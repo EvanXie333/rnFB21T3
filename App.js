@@ -15,7 +15,14 @@ import {Signout} from './components/Signout'
 import { firebaseConfig } from './Config';
 import {initializeApp} from 'firebase/app'
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword,signOut } from "firebase/auth";
-import { initializeFirestore, getFirestore, setDoc, doc, addDoc, collection } from 'firebase/firestore'
+import { initializeFirestore, 
+  getFirestore, 
+  setDoc, 
+  doc, 
+  addDoc, 
+  collection,
+  query, where, onSnapshot 
+} from 'firebase/firestore'
 
 
 const FBapp = initializeApp( firebaseConfig)
@@ -30,6 +37,7 @@ export default function App() {
   const[ user, setUser] = useState()
   const [signupError,setSignupError] = useState()
   const [signinError,setSigninError] = useState()
+  const [data, setData] = useState()
 
   
 
@@ -38,6 +46,7 @@ export default function App() {
       if(user) {
         setAuth(true)
         setUser(user)
+        if(!data) {getData()}
       }
       else{
         setAuth(false)
@@ -46,6 +55,11 @@ export default function App() {
     })
   })
 
+  // useEffect( ()=> {
+  //   if(!data && user){
+  //     getData()
+  //   }
+  // },[data,auth, user] )
 
   const SignupHandler = (email,password) =>{
     setSignupError(null)
@@ -84,10 +98,25 @@ export default function App() {
 
   const addData = async (FScolletction, data) =>{
     //const ref = await addDoc( collection(FSdb, FScolletction), data)
-    const ref = await setDoc( doc(FSdb, `users/${user.uid}/documents/${new Date().getTime()} `), data )
+    const ref = await setDoc( doc(FSdb, `users/${user.uid}/documents/${new Date().getTime()} `), data )}
 
+  const getData = () =>{
+    //console.log('...getting data')
+    const FSquery = query( collection(FSdb,`users/${user.uid}/documents`) )
+    const unsubscribe = onSnapshot( FSquery, (querySnapshot)=> {
+      let FSdata = []
+      querySnapshot.forEach( (doc) =>{
+        let item ={}
+        item = doc.data()
+        item.id = doc.id
+        FSdata.push( doc.data() )
+    })
+    setData(FSdata)
+    
+    })
     
   }
+
   return (
     <NavigationContainer>
       
@@ -106,10 +135,10 @@ export default function App() {
         
         <Stack.Screen name="Home" options = {{
           headderTitle: "Home",
-          headerRight: (props) => <Signout {...props} handler = {SignoutHandler}/>
+          headerRight: (props) => <Signout {...props} handler = {SignoutHandler} user={user}/>
          }}> 
           { (props) => 
-          <Home {...props} auth= {auth} add={addData}/>}
+          <Home {...props} auth= {auth} add={addData} data={ data }/>}
           </Stack.Screen>
           
         
