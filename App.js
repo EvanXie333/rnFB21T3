@@ -52,9 +52,10 @@ export default function App() {
     createUserWithEmailAndPassword(FBauth, email, password)
     .then( (userCredential )=>{
       addDoc( collection (firestore,'users'), {id:userCredential.user.uid, email: userCredential.user.email})
-      //createUser('user', {id:userCredential.user.uid, email: userCredential.user.email})
+
       setUser(userCredential)
       setAuth(true)
+      
     })
     .catch( (error) =>{ console.log(error.code) })
 
@@ -68,6 +69,7 @@ export default function App() {
       
       setUser(userCredential)
       setAuth(true)
+      console.log(userCredential.user.uid)
     })
     .catch( (error) =>{ setSignupError(error) } )
   } 
@@ -81,8 +83,10 @@ export default function App() {
   }
 
   const addData = async (FScolletction, data) =>{
-    const ref = await addDoc( collection(FSdb, FScolletction), data)
-    console.log(ref.id)
+    //const ref = await addDoc( collection(FSdb, FScolletction), data)
+    const ref = await setDoc( doc(FSdb, `users/${user.uid}/documents/${new Date().getTime()} `), data )
+
+    
   }
   return (
     <NavigationContainer>
