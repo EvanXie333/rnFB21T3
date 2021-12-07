@@ -21,6 +21,7 @@ import { initializeFirestore,
   setDoc, 
   doc, 
   addDoc, 
+  getDoc,
   collection,
   query, where, onSnapshot 
 } from 'firebase/firestore'
@@ -118,6 +119,22 @@ export default function App() {
     
   }
 
+  const getDetail = async (id) =>{
+    const docRef = doc( FSdb, `users/${user.uid}/documents`, id)
+    const docData = await getDoc(docRef)
+    return new Promise( (resolve,reject) => {
+      if(docData.exists()) {
+        let document = docData.data()
+        document.id = id
+        resolve(document)
+      }
+      else{
+        reject('no such document')
+      }
+    })
+    
+  }
+
   return (
     <NavigationContainer>
       
@@ -144,7 +161,7 @@ export default function App() {
           <Stack.Screen name="Detail" options={{
             headerTitle: "Item detail"
           }}>
-            { (props) => <Detail {...props}/>}
+            { (props) => <Detail {...props} get ={getDetail}/>}
 
           </Stack.Screen>
           
