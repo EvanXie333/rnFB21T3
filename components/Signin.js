@@ -82,7 +82,7 @@ const styles = StyleSheet.create( {
         flex: 1,
       },
       meta: {
-        backgroundColor: ThemeColours.culturedTranslucent,
+        backgroundColor: ThemeColours.cultured,
         padding: 10,
         borderRadius: 10,
       },
