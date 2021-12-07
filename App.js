@@ -109,7 +109,7 @@ export default function App() {
           headerRight: (props) => <Signout {...props} handler = {SignoutHandler}/>
          }}> 
           { (props) => 
-          <Home {...props} auth= {auth} />}
+          <Home {...props} auth= {auth} add={addData}/>}
           </Stack.Screen>
           
         
